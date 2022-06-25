@@ -23,6 +23,8 @@ class MyDocument extends Document {
             <meta name="msapplication-TileColor" content="#ffffff"/>
             <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
             <meta name="theme-color" content="#ffffff"/> 
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/>
+            <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght,XTRA,YTAS@8..144,112.5,400,485,750;8..144,125,300,468,749;8..144,125,400,468,749;8..144,125,500,477,750;8..144,125,600,477,750;8..144,125,700,477,750&display=swap" rel="stylesheet"/>
         </Head>
         <body>
           <Main />
