@@ -33,8 +33,8 @@ export default function FaqIndex({data}) {
     
     return (
         <div className="mx-auto max-w-7xl px-4 lg:py-16 sm:px-6 lg:px-8 lg:py-20">
-            <div className='grid md:grid-cols-4 grid-cols-1'>
-                <Sidebar data={data.categories} catChangeHandler={catChangeHandler} catIndex={catIndex} />
+            <div className='grid md:grid-cols-2 grid-cols-1 justify-center'>
+                {/* <Sidebar data={data.categories} catChangeHandler={catChangeHandler} catIndex={catIndex} /> */}
                 <div className="md:col-span-3 col-span-1 mt-10 md:mt-0">
                     <div className="">
                         <div className="mx-auto px-4 pb-20 sm:px-6 lg:px-8">

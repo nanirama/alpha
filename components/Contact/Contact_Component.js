@@ -14,7 +14,7 @@
         colors: {
           'warm-gray': colors.warmGray,
           teal: colors.teal,
-        },
+        },      
       },
     },
     plugins: [
@@ -27,6 +27,9 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MailIcon, MenuIcon, PhoneIcon, XIcon } from "@heroicons/react/outline";
+import { useState } from "react";
+import { parseCookies } from "nookies";
+import axios from "axios";
 
 const navigation = [
 	{ name: "Changelog", href: "#" },
@@ -58,7 +61,7 @@ const footerNavigation = {
 		{ name: "Analytics", href: "#" },
 		{ name: "Commerce", href: "#" },
 		{ name: "Insights", href: "#" },
-	],
+	], 
 	support: [
 		{ name: "Pricing", href: "#" },
 		{ name: "Documentation", href: "#" },
@@ -143,113 +146,62 @@ const footerNavigation = {
 };
 
 export default function ContactComponent() {
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [email, setEmail] = useState("");
+	const [phone, setPhone] = useState("");
+	const [subject, setSubject] = useState("");
+	const [message, setMessage] = useState("");
+
+	// const [modifiedData, setModifiedData] = useState({
+	// 	firstName: "",
+	// 	lastName: "",
+	// 	email: "",
+	// 	phone: "",
+	// 	subject: "",
+	// 	message: "",
+	// });
+
+	const [errorComments, setErrorComments] = useState("");
+
+	async function handleSubmit(event) {
+		
+		event.preventDefault();
+
+		const jwt = parseCookies.jwt;
+
+		const contactInfo = {
+			firstname: firstName,
+			lastname: lastName,
+			email: email,
+			phone: phone,
+			subject: subject,
+			message: message,
+		};
+		console.log('handle submit happen', process.env.NEXT_PUBLIC_STRAPI_API_URL)
+
+		const add = await fetch(
+			`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/contactus-lead`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ data: contactInfo }),
+			}
+		);
+		const addResponse = await add.text();
+		console.log(addResponse);
+	}
+
 	return (
 		<div className="bg-white">
-			<Popover as="header" className="relative">
-				<div className="bg-warm-gray-50">
-					<nav
-						className="relative max-w-7xl mx-auto flex items-center justify-between pt-6 px-6 xl:px-8"
-						aria-label="Global"
-					>
-						<div className="flex items-center flex-1">
-							<div className="flex items-center justify-between w-full lg:w-auto">
-								<a href="#">
-									<span className="sr-only">Workflow</span>
-									<img
-										className="h-8 w-auto sm:h-10"
-										src="https://tailwindui.com/img/logos/workflow-mark.svg?color=teal&shade=500"
-										alt=""
-									/>
-								</a>
-								<div className="-mr-2 flex items-center lg:hidden">
-									<Popover.Button className="bg-warm-gray-50 rounded-md p-2 inline-flex items-center justify-center text-warm-gray-400 hover:bg-warm-gray-100 focus:outline-none focus:ring-2 focus-ring-inset focus:ring-teal-500">
-										<span className="sr-only">Open main menu</span>
-										<MenuIcon className="h-6 w-6" aria-hidden="true" />
-									</Popover.Button>
-								</div>
-							</div>
-							<div className="hidden space-x-10 lg:flex lg:ml-10">
-								{navigation.map((item) => (
-									<a
-										key={item.name}
-										href={item.href}
-										className="text-base font-medium text-warm-gray-500 hover:text-warm-gray-900"
-									>
-										{item.name}
-									</a>
-								))}
-							</div>
-						</div>
-						<div className="hidden lg:flex lg:items-center lg:space-x-6">
-							<a
-								href="#"
-								className="py-2 px-6 bg-warm-gray-100 border border-transparent rounded-md text-base font-medium text-warm-gray-900 hover:bg-warm-gray-200"
-							>
-								Login
-							</a>
-						</div>
-					</nav>
-				</div>
-
-				<Transition
-					as={Fragment}
-					enter="duration-150 ease-out"
-					enterFrom="opacity-0 scale-95"
-					enterTo="opacity-100 scale-100"
-					leave="duration-100 ease-in"
-					leaveFrom="opacity-100 scale-100"
-					leaveTo="opacity-0 scale-95"
-				>
-					<Popover.Panel
-						focus
-						className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top lg:hidden"
-					>
-						<div className="rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-							<div className="px-5 pt-4 flex items-center justify-between">
-								<div>
-									<img
-										className="h-8 w-auto"
-										src="https://tailwindui.com/img/logos/workflow-mark.svg?color=teal&shade=500"
-										alt=""
-									/>
-								</div>
-								<div className="-mr-2">
-									<Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-warm-gray-400 hover:bg-warm-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500">
-										<span className="sr-only">Close menu</span>
-										<XIcon className="h-6 w-6" aria-hidden="true" />
-									</Popover.Button>
-								</div>
-							</div>
-							<div className="pt-5 pb-6">
-								<div className="px-2 space-y-1">
-									{navigation.map((item) => (
-										<a
-											key={item.name}
-											href={item.href}
-											className="block px-3 py-2 rounded-md text-base font-medium text-warm-gray-900 hover:bg-warm-gray-50"
-										>
-											{item.name}
-										</a>
-									))}
-								</div>
-								<div className="mt-6 px-5">
-									<a
-										href="#"
-										className="block text-center w-full py-2 px-4 border border-transparent rounded-md shadow bg-teal-500 text-white font-medium hover:bg-teal-600"
-									>
-										Login
-									</a>
-								</div>
-							</div>
-						</div>
-					</Popover.Panel>
-				</Transition>
-			</Popover>
+			
 
 			<main className="overflow-hidden">
 				{/* Header */}
 				<div className="bg-warm-gray-50">
-					<div className="py-24 lg:py-32">
+					<div className="py-15 lg:py-20">
 						<div className="relative z-10 max-w-7xl mx-auto pl-4 pr-8 sm:px-6 lg:px-8">
 							<h1 className="text-4xl font-extrabold tracking-tight text-warm-gray-900 sm:text-5xl lg:text-6xl">
 								Get in touch
@@ -521,6 +473,8 @@ export default function ContactComponent() {
 													id="first-name"
 													autoComplete="given-name"
 													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
+													onChange={(e) => setFirstName(e.target.value)}
+													value={firstName}
 												/>
 											</div>
 										</div>
@@ -538,6 +492,8 @@ export default function ContactComponent() {
 													id="last-name"
 													autoComplete="family-name"
 													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
+													onChange={(e) => setLastName(e.target.value)}
+													value={lastName}
 												/>
 											</div>
 										</div>
@@ -555,6 +511,8 @@ export default function ContactComponent() {
 													type="email"
 													autoComplete="email"
 													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
+													onChange={(e) => setEmail(e.target.value)}
+													value={email}
 												/>
 											</div>
 										</div>
@@ -581,6 +539,8 @@ export default function ContactComponent() {
 													autoComplete="tel"
 													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
 													aria-describedby="phone-optional"
+													onChange={(e) => setPhone(e.target.value)}
+													value={phone}
 												/>
 											</div>
 										</div>
@@ -597,6 +557,8 @@ export default function ContactComponent() {
 													name="subject"
 													id="subject"
 													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
+													onChange={(e) => setSubject(e.target.value)}
+													value={subject}
 												/>
 											</div>
 										</div>
@@ -622,7 +584,9 @@ export default function ContactComponent() {
 													rows={4}
 													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border border-warm-gray-300 rounded-md"
 													aria-describedby="message-max"
-													defaultValue={""}
+													// defaultValue={""}
+													onChange={(e) => setMessage(e.target.value)}
+													value={message}
 												/>
 											</div>
 										</div>
@@ -630,6 +594,7 @@ export default function ContactComponent() {
 											<button
 												type="submit"
 												className="mt-2 w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:w-auto"
+												onClick={handleSubmit}
 											>
 												Submit
 											</button>
@@ -675,117 +640,7 @@ export default function ContactComponent() {
 				</section>
 			</main>
 
-			<footer className="bg-warm-gray-900" aria-labelledby="footer-heading">
-				<h2 id="footer-heading" className="sr-only">
-					Footer
-				</h2>
-				<div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-					<div className="xl:grid xl:grid-cols-3 xl:gap-8">
-						<div className="space-y-8 xl:col-span-1">
-							<img
-								className="h-10"
-								src="https://tailwindui.com/img/logos/workflow-mark.svg?color=warmGray&shade=400"
-								alt="Company name"
-							/>
-							<p className="text-warm-gray-400 text-base">
-								Making the world a better place through constructing elegant
-								hierarchies.
-							</p>
-							<div className="flex space-x-6">
-								{footerNavigation.social.map((item) => (
-									<a
-										key={item.name}
-										href={item.href}
-										className="text-warm-gray-400 hover:text-warm-gray-300"
-									>
-										<span className="sr-only">{item.name}</span>
-										<item.icon className="h-6 w-6" aria-hidden="true" />
-									</a>
-								))}
-							</div>
-						</div>
-						<div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
-							<div className="md:grid md:grid-cols-2 md:gap-8">
-								<div>
-									<h3 className="text-sm font-semibold text-warm-gray-200 tracking-wider uppercase">
-										Solutions
-									</h3>
-									<ul role="list" className="mt-4 space-y-4">
-										{footerNavigation.solutions.map((item) => (
-											<li key={item.name}>
-												<a
-													href={item.href}
-													className="text-base text-warm-gray-400 hover:text-warm-gray-300"
-												>
-													{item.name}
-												</a>
-											</li>
-										))}
-									</ul>
-								</div>
-								<div className="mt-12 md:mt-0">
-									<h3 className="text-sm font-semibold text-warm-gray-200 tracking-wider uppercase">
-										Support
-									</h3>
-									<ul role="list" className="mt-4 space-y-4">
-										{footerNavigation.support.map((item) => (
-											<li key={item.name}>
-												<a
-													href={item.href}
-													className="text-base text-warm-gray-400 hover:text-warm-gray-300"
-												>
-													{item.name}
-												</a>
-											</li>
-										))}
-									</ul>
-								</div>
-							</div>
-							<div className="md:grid md:grid-cols-2 md:gap-8">
-								<div>
-									<h3 className="text-sm font-semibold text-warm-gray-200 tracking-wider uppercase">
-										Company
-									</h3>
-									<ul role="list" className="mt-4 space-y-4">
-										{footerNavigation.company.map((item) => (
-											<li key={item.name}>
-												<a
-													href={item.href}
-													className="text-base text-warm-gray-400 hover:text-warm-gray-300"
-												>
-													{item.name}
-												</a>
-											</li>
-										))}
-									</ul>
-								</div>
-								<div className="mt-12 md:mt-0">
-									<h3 className="text-sm font-semibold text-warm-gray-200 tracking-wider uppercase">
-										Legal
-									</h3>
-									<ul role="list" className="mt-4 space-y-4">
-										{footerNavigation.legal.map((item) => (
-											<li key={item.name}>
-												<a
-													href={item.href}
-													className="text-base text-warm-gray-400 hover:text-warm-gray-300"
-												>
-													{item.name}
-												</a>
-											</li>
-										))}
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className="mt-12 border-t border-warm-gray-700 pt-8">
-						<p className="text-base text-warm-gray-400 xl:text-center">
-							&copy; 2020 Workflow, Inc. All rights reserved.
-						</p>
-					</div>
-				</div>
-			</footer>
+			
 		</div>
 	);
 }
