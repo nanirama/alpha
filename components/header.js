@@ -1,4 +1,5 @@
 import React from "react"
+import { useRouter } from 'next/router';
 import Image from 'next/image'
 import Link from "next/link"
 
@@ -30,10 +31,12 @@ function classNames(...classes) {
 }
 
 const Header = () => {
+  const { pathname } = useRouter();
+  console.log('router.pathname', pathname)
   return (
     <div>
-      <Popover className="relative bg-white">
-        <div className="flex justify-between items-center px-4 py-6 sm:px-6 lg:justify-start lg:space-x-10">
+      <Popover className="relative bg-white border">
+        <div className="flex justify-between items-center px-4 pt-2 pb-1 sm:px-2 lg:justify-start lg:space-x-10">
           <div>
             <div className="flex">
               <span className="sr-only">Workflow</span>
@@ -58,44 +61,44 @@ const Header = () => {
           <div className="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between">
             <Popover.Group as="nav" className="flex xl:space-x-10 lg:space-x-6">
               <Link href="/">
-                <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+                <a className={pathname === '/' ? 'text-base font-bold text-gray-900' : 'text-base font-medium text-gray-600 hover:text-gray-900 hover:font-bold'}>
                   Home
                 </a>
               </Link>
               <Link href="/about-us">
-              <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+              <a className={pathname === '/about-us' ? 'text-base font-bold text-gray-900' : 'text-base font-medium text-gray-600 hover:text-gray-900 hover:font-bold'}>
                 About us
               </a>
               </Link>
               <Link href="/services">
-                <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+                <a className={pathname === '/services' ? 'text-base font-bold text-gray-900' : 'text-base font-medium text-gray-600 hover:text-gray-900 hover:font-bold'}>
                   Services
                 </a>
               </Link>
               <Link href="/faq">
-                <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+                <a className={pathname === '/faq' ? 'text-base font-bold text-gray-900' : 'text-base font-medium text-gray-600 hover:text-gray-900 hover:font-bold'}>
                   FAQ
                 </a>
               </Link>
-              <Link href="/">
-              <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+              <Link href="/testimonials">
+              <a className={pathname === '/testimonials' ? 'text-base font-bold text-gray-900' : 'text-base font-medium text-gray-600 hover:text-gray-900 hover:font-bold'}>
                 Testimonials
               </a>
               </Link>
               <Link href="/blog">
-              <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+              <a className={pathname === '/blog' ? 'text-base font-bold text-gray-900' : 'text-base font-medium text-gray-600 hover:text-gray-900 hover:font-bold'}>
                 Blog
               </a>
               </Link>
               <Link href="/case-studies">
-              <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+              <a className={pathname === '/case-studies' ? 'text-base font-bold text-gray-900' : 'text-base font-medium text-gray-600 hover:text-gray-900 hover:font-bold'}>
                 Case studies
               </a>
               </Link>
             </Popover.Group>
             <div className="flex items-center lg:ml-12">
               <Link href="#">
-                <a className="text-base font-medium text-gray-500 hover:text-gray-900">
+                <a className="text-base font-medium text-gray-600 hover:text-gray-900  hover:font-bold">
                   Sign in
                 </a>
               </Link>
