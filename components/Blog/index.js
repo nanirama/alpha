@@ -54,7 +54,7 @@ export default function Index({ data }) {
                     const height = metaHeight ? metaHeight[1] : "432"
                  return (
                         <div className="postImgWrapper">
-                            <ImgLoader
+                            <Image
                                 src={image.properties.src}
                                 alt={alt}
                                 width={width}
