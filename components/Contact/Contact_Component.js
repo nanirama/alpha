@@ -8,19 +8,19 @@
   const colors = require('tailwindcss/colors')
   
   module.exports = {
-    // ...
-    theme: {
-      extend: {
-        colors: {
-          'warm-gray': colors.warmGray,
-          teal: colors.teal,
-        },      
-      },
-    },
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
+	// ...
+	theme: {
+	  extend: {
+		colors: {
+		  'warm-gray': colors.warmGray,
+		  teal: colors.teal,
+		},      
+	  },
+	},
+	plugins: [
+	  // ...
+	  require('@tailwindcss/forms'),
+	],
   }
   ```
 */
@@ -30,6 +30,8 @@ import { MailIcon, MenuIcon, PhoneIcon, XIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 import { parseCookies } from "nookies";
 import axios from "axios";
+
+import { useForm } from "react-hook-form";
 
 const navigation = [
 	{ name: "Changelog", href: "#" },
@@ -61,7 +63,7 @@ const footerNavigation = {
 		{ name: "Analytics", href: "#" },
 		{ name: "Commerce", href: "#" },
 		{ name: "Insights", href: "#" },
-	], 
+	],
 	support: [
 		{ name: "Pricing", href: "#" },
 		{ name: "Documentation", href: "#" },
@@ -162,43 +164,49 @@ export default function ContactComponent() {
 	// 	message: "",
 	// });
 
-	const [errorComments, setErrorComments] = useState("");
+	// const [errorComments, setErrorComments] = useState("");
 
-	async function handleSubmit(event) {
-		
-		event.preventDefault();
+	// async function handleSubmit(event) {
 
-		const jwt = parseCookies.jwt;
+	// 	event.preventDefault();
 
-		const contactInfo = {
-			firstname: firstName,
-			lastname: lastName,
-			email: email,
-			phone: phone,
-			subject: subject,
-			message: message,
-		};
-		console.log('handle submit happen', process.env.NEXT_PUBLIC_STRAPI_API_URL)
+	// 	const jwt = parseCookies.jwt;
 
-		const add = await fetch(
-			`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/contactus-lead`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ data: contactInfo }),
-			}
-		);
-		const addResponse = await add.text();
-		console.log(addResponse);
-	}
+	// 	const contactInfo = {
+	// 		firstname: firstName,
+	// 		lastname: lastName,
+	// 		email: email,
+	// 		phone: phone,
+	// 		subject: subject,
+	// 		message: message,
+	// 	};
+	// 	console.log('handle submit happen', process.env.NEXT_PUBLIC_STRAPI_API_URL)
+
+	// 	// const add = await fetch(
+	// 	// 	`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/contactus-lead`,
+	// 	// 	{
+	// 	// 		method: "POST",
+	// 	// 		headers: {
+	// 	// 			"Content-Type": "application/json",
+	// 	// 		},
+	// 	// 		body: JSON.stringify({ data: contactInfo }),
+	// 	// 	}
+	// 	// );
+	// 	// const addResponse = await add.text();
+	// 	// console.log(addResponse);
+	// }
+
+	const { register, handleSubmit, watch, formState: { errors } } = useForm();
+	const onSubmit = data => console.log(data);
+
+	
+
 
 	return (
-		<div className="bg-white">
-			
 
-			<main className="overflow-hidden">
+
+		<div className="bg-white">
+					<main className="overflow-hidden">
 				{/* Header */}
 				<div className="bg-warm-gray-50">
 					<div className="py-15 lg:py-20">
@@ -451,10 +459,11 @@ export default function ContactComponent() {
 
 								{/* Contact form */}
 								<div className="py-10 px-6 sm:px-10 lg:col-span-2 xl:p-12">
+									
 									<h3 className="text-lg font-medium text-warm-gray-900">
 										Send us a message
 									</h3>
-									<form
+									<form onSubmit={handleSubmit(onSubmit)}
 										action="#"
 										method="POST"
 										className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
@@ -467,15 +476,27 @@ export default function ContactComponent() {
 												First name
 											</label>
 											<div className="mt-1">
-												<input
+											<input
+												 {...register("firstName", { required: true })}
 													type="text"
 													name="first-name"
 													id="first-name"
 													autoComplete="given-name"
-													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
+
+													className={`${errors.firstName 
+														? "border-red-500 border"
+														: "border-warm-gray-300"
+														} py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 rounded-md`}
+
 													onChange={(e) => setFirstName(e.target.value)}
 													value={firstName}
+												
 												/>
+											
+												{errors.firstName && <p className="error text-red-500">The field is required.</p>}
+
+												
+
 											</div>
 										</div>
 										<div>
@@ -487,14 +508,22 @@ export default function ContactComponent() {
 											</label>
 											<div className="mt-1">
 												<input
+												 {...register("lastname", { required: true })}
+												 
 													type="text"
 													name="last-name"
 													id="last-name"
 													autoComplete="family-name"
-													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
+													className={`${errors.lastname 
+														? "border-red-500 border"
+														: "border-warm-gray-300"
+														} py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 rounded-md`}
 													onChange={(e) => setLastName(e.target.value)}
+													
 													value={lastName}
 												/>
+												{errors.lastname && <p className="error text-red-500">The field is required.</p>}
+											
 											</div>
 										</div>
 										<div>
@@ -506,14 +535,19 @@ export default function ContactComponent() {
 											</label>
 											<div className="mt-1">
 												<input
+												 {...register("email", { required: true })}
 													id="email"
 													name="email"
 													type="email"
 													autoComplete="email"
-													className="py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-warm-gray-300 rounded-md"
+													className={`${errors.email 
+														? "border-red-500 border"
+														: "border-warm-gray-300"
+														} py-3 px-4 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 rounded-md`}
 													onChange={(e) => setEmail(e.target.value)}
 													value={email}
 												/>
+												{errors.email && <p className="error text-red-500">The field is required.</p>}
 											</div>
 										</div>
 										<div>
@@ -640,7 +674,7 @@ export default function ContactComponent() {
 				</section>
 			</main>
 
-			
+
 		</div>
 	);
 }

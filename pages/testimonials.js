@@ -3,22 +3,23 @@ import Layout from '../components/layout'
 import FaqIndex from '../components/FAQ'
 
 
+import Testimonialsection from '../components/Testimonials/Testimonials'
 
-export default function FAQ(props) {    
+export default function Testimonialspage(props) {    
     return (
         <Layout>
-            <FaqIndex data={props}/>
+            <Testimonialsection data={props.data} />
         </Layout>
+
     )
+
 }
 
 export async function getStaticProps() {
-    const res = await fetchAPI('/api/faqs?populate=*')
-    const cat_res = await fetchAPI('/api/faq-categories?populate=*')
+    const res = await fetchAPI('/api/testimonies?populate=*')
     return {
       props: {
-        faq: res.data,
-        categories: cat_res.data
+        data: res.data
       },
     }
   }

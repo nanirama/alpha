@@ -5,7 +5,7 @@ import { ChevronRightIcon, StarIcon } from '@heroicons/react/solid'
 
 export default function Hero() {
   return (
-    <div className="bg-white pb-8 sm:pb-12">
+    <div className="bg-white pb-8 mt-8 my-6 sm:pb-12">
       <div className="pt-8 overflow-hidden sm:pt-12 lg:relative">
         <div className="px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
           <div>

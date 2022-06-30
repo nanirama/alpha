@@ -6,16 +6,29 @@ import styles from '../styles/Home.module.css'
 
 import Hero from '../components/Services/Hero'
 import Features from '../components/Services/Features'
-import Testimonials from '../components/Services/Testimonial'
+import Trustedcompanies from '../components/Services/Trustedcompanies'
 import Cta from '../components/Services/Cta'
+import Startupsection from '../components/Services/Startup'
+import Testimonials from '../components/Services/Testimonials'
+import Blocksection from '../components/Services/Blocks'
+import BoostProductivity from '../components/Services/BoostProductivity'
+import FaqSectioninService from '../components/Services/Faq'
 
-export default function Home() {
+
+
+export default function Home(props) {
   return (
     <Layout>
       <Hero />
       <Features />
-      <Testimonials />
+      <Trustedcompanies />
       <Cta />
+      <Startupsection />
+      <Testimonials />
+      <Blocksection/>
+      <BoostProductivity />
+      <FaqSectioninService />
+     
     </Layout>
   )
 }

@@ -46,7 +46,7 @@ const features = [
 
 export default function Features() {
   return (
-    <div className="relative bg-white sm:py-16 py-10">
+    <div className="relative bg-white sm:py-16 mb-1 md:mb-8 py-10">
       <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
         <p className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
           Why choose AlphaValley for crafting your SaaS Pitch Deck?

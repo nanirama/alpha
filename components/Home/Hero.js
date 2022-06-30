@@ -1,6 +1,5 @@
-
+import Script from "next/script";
 import { Fragment } from 'react'
-import Script from 'next/script'
 import { Popover, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
@@ -30,8 +29,13 @@ export default function Hero() {
               AlphaValley is the #1 choice for experienced founders seeking compelling investor pitch decks and business plans. 
               </p>
               <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-              <Script src='https://bigin.zoho.in/crm/WebFormServeServlet?rid=f1a1faee80712dc9c0d45324653a5bd0019c78f214dac8ce60f36a331804123cgid6cd952f3e5be67584d0644fe79b8ff8f467182910d36d1784d783e5c92f37855&script=$sYG'></Script>
                 <p className="text-base font-medium text-gray-900">Looking for help? Fill up the form. </p>
+                <Script src="https://bigin.zoho.in/crm/WebFormServeServlet?rid=f1a1faee80712dc9c0d45324653a5bd0019c78f214dac8ce60f36a331804123cgid6cd952f3e5be67584d0644fe79b8ff8f467182910d36d1784d783e5c92f37855&script=$sYG" strategy="lazyOnload" />
+                <Script
+                  strategy="lazyOnload"
+                  id="biginZoho"
+                  src={`https://bigin.zoho.in/crm/WebFormServeServlet?rid=f1a1faee80712dc9c0d45324653a5bd0019c78f214dac8ce60f36a331804123cgid6cd952f3e5be67584d0644fe79b8ff8f467182910d36d1784d783e5c92f37855&script=$sYG`}
+                />
                 <form action="#" method="POST" className="mt-3 flex flex-col gap-5">
                   <label htmlFor="email" className="sr-only">
                   Name
