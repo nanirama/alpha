@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <GlobalContext.Provider>
       <Head>
-        <title>Trady</title>
+        <title>Alpha Valley</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
